@@ -26,3 +26,11 @@ class UpConvBlock(nn.Module):
             return self.tanh(img)
 
 
+if __name__=="__main__":
+    upcon = UpConvBlock(3,32,2,1)
+    img = torch.rand(4,3,28,28)
+    print(upcon)
+    resUpConv = upcon(img)
+    print(resUpConv.shape)
+
+
