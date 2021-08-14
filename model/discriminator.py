@@ -4,9 +4,9 @@ import torch.nn as nn
 
 class ConvBlock(nn.Module):
 
-    def __init__(self, chn_dim, hid_dim, kernel):
+    def __init__(self, chn_dim, hid_dim, kernel,stride):
         super(ConvBlock, self).__init__()
-        self.conv = nn.Conv2d(chn_dim, hid_dim, kernel)
+        self.conv = nn.Conv2d(chn_dim, hid_dim, kernel,stride)
         self.bn = nn.BatchNorm2d(hid_dim)
         self.leakyrelu = nn.LeakyReLU(0.2)
 
@@ -24,9 +24,9 @@ class Discriminator(nn.Module):
         self.img_dim = img_dim
         self.label_linear = nn.Linear(label_dim, self.img_dim * self.img_dim)
 
-        self.conv1 = ConvBlock(channel_dim + 1, hid_dim, 3)
-        self.conv2 = ConvBlock(hid_dim, hid_dim * 2, 3)
-        self.conv3 = ConvBlock(hid_dim * 2, 1, 3)
+        self.conv1 = ConvBlock(channel_dim + 1, hid_dim, 3,2)
+        self.conv2 = ConvBlock(hid_dim, hid_dim * 2, 3,1)
+        self.conv3 = ConvBlock(hid_dim * 2, 1, 3,1)
         self.dropout = nn.Dropout(0.25)
 
     def forward(self, img, label):
@@ -36,6 +36,7 @@ class Discriminator(nn.Module):
         inp = self.conv1(concat_inp)
         inp = self.conv2(inp)
         inp = self.dropout(self.conv3(inp))
+        print(inp.shape)
         flattend = inp.view(inp.shape[0],-1)
 
         return flattend
