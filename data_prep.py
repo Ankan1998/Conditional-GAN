@@ -1,0 +1,52 @@
+import os
+import pandas as pd
+import torch
+from PIL import Image
+from torch.utils.data import Dataset, DataLoader
+from torchvision import transforms, utils
+import matplotlib.pyplot as plt
+# Ignore warnings
+import warnings
+
+warnings.filterwarnings("ignore")
+
+
+class CGANDataSet(Dataset):
+
+    def __init__(self, data_dir, csv_file, transform=None):
+        self.data_dir = data_dir
+        self.transform = transform
+        df = pd.read_csv(csv_file)
+        one_enc = pd.get_dummies(df.iloc[:, 0])
+        df = pd.concat([df, one_enc], axis=1)
+        df = df.iloc[:, 1:]
+        self.dataframe = df
+        keys = df.columns.tolist()[1:]
+        val = list(range(len(keys)))
+        self.dictionary = dict(zip(keys, val))
+
+    def __len__(self):
+        return len(self.dataframe)
+
+    def __getitem__(self, idx):
+        img_path = os.path.join(self.data_dir, self.dataframe.iloc[idx, 0])
+        img = Image.open(img_path).convert("RGB")
+        label = torch.tensor(self.dataframe.iloc[idx, 1:].tolist())
+
+        if self.transform is not None:
+            img = self.transform(img)
+
+        return img, label
+
+
+if __name__ == "__main__":
+    data_dir = r'C:\Users\Ankan\Downloads\fashion'
+    csv_file = r'C:\Users\Ankan\Downloads\fashion\index.csv'
+    cgandataset = CGANDataSet(data_dir,csv_file)
+    print(cgandataset.__len__)
+    img, label = cgandataset.__getitem__(0)
+    print(label)
+    print('*'*100)
+    print(cgandataset.dictionary)
+    plt.imshow(img)
+    plt.show()
