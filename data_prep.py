@@ -42,11 +42,19 @@ class CGANDataSet(Dataset):
 if __name__ == "__main__":
     data_dir = r'C:\Users\Ankan\Downloads\fashion'
     csv_file = r'C:\Users\Ankan\Downloads\fashion\index.csv'
-    cgandataset = CGANDataSet(data_dir,csv_file)
+    transform = transforms.Compose(
+        [
+            transforms.Resize((299, 299)),
+            transforms.ToTensor(),
+            transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+        ]
+    )
+    cgandataset = CGANDataSet(data_dir,csv_file,transform = transform)
     print(cgandataset.__len__)
     img, label = cgandataset.__getitem__(0)
     print(label)
     print('*'*100)
     print(cgandataset.dictionary)
-    plt.imshow(img)
-    plt.show()
+    print(img.shape)
+    # plt.imshow(img)
+    # plt.show()
