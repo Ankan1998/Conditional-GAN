@@ -55,6 +55,6 @@ if __name__=="__main__":
     disc = Discriminator(28,3,32,10)
     print(disc)
     img = torch.rand(4,3,28,28)
-    label = torch.rand(4,1,1,10)
+    label = torch.rand(4,10)
     vec = disc(img,label)
     print(vec.shape)
