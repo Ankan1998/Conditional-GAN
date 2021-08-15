@@ -52,7 +52,7 @@ if __name__ == "__main__":
     cgandataset = CGANDataSet(data_dir,csv_file,transform = transform)
     print(cgandataset.__len__)
     img, label = cgandataset.__getitem__(0)
-    print(label)
+    print(label.shape)
     print('*'*100)
     print(cgandataset.dictionary)
     print(img.shape)
