@@ -28,20 +28,17 @@ class UpConvBlock(nn.Module):
 
 class Generator(nn.Module):
 
-    def __init__(self,gen_img_dim, noise_dim, label_dim, hid_dim):
+    def __init__(self, noise_dim, label_dim, hid_dim):
         super(Generator, self).__init__()
-        self.gen_img_dim = gen_img_dim
         concat_dim = noise_dim + label_dim
-        self.label_linear = nn.Linear(concat_dim,self.gen_img_dim*self.gen_img_dim)
-        self.upconv1 = UpConvBlock(1,hid_dim*2,3,2)
+        self.upconv1 = UpConvBlock(concat_dim,hid_dim*2,3,2)
         self.upconv2 = UpConvBlock(hid_dim*2,hid_dim,3,1)
         self.upconv3 = UpConvBlock(hid_dim, 3, 3, 1,final_layer=True)
 
     def forward(self,noise,label):
         conc_tensor = torch.cat([noise, label], 1)
-        out = self.label_linear(conc_tensor)
-        out_reshaped = torch.reshape(out, (label.shape[0],1, 9, 9))
-        gen_inp = self.upconv1(out_reshaped)
+        conc_tensor = conc_tensor.view(label.shape[0],conc_tensor.shape[1],1,1)
+        gen_inp = self.upconv1(conc_tensor)
         gen_inp = self.upconv2(gen_inp)
         gen_out = self.upconv3(gen_inp)
 
@@ -50,7 +47,7 @@ class Generator(nn.Module):
 
 
 if __name__=="__main__":
-    upcon = Generator(28,100,10,32)
+    upcon = Generator(100,10,32)
     noise = torch.rand(4,100)
     label = torch.rand(4,10)
     print(upcon)
