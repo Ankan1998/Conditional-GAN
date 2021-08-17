@@ -16,4 +16,11 @@ def disc_loss(gen, disc, criterion, real, label, num_images, z_dim, device):
 
 
 
+def gen_loss(gen, disc, criterion, num_images, z_dim, label, device,):
 
+    fake_noise = torch.randn(num_images, z_dim, device=device)
+    fake_label = F.one_hot(torch.randint(0, 10, (num_images,)), num_classes=label.shape[1])
+    fake = gen(fake_noise,fake_label)
+    disc_fake_pred = disc(fake)
+    gen_loss = criterion(disc_fake_pred, torch.ones_like(disc_fake_pred))
+    return gen_loss
