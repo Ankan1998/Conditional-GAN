@@ -35,16 +35,19 @@ class Discriminator(nn.Module):
         self.conv3 = ConvBlock(hid_dim * 2, 1, 3,1, final_layer=True)
         self.dropout = nn.Dropout(0.25)
 
-    def construct_label(self,label):
-        batch_list = []
-        for i in range(len(label)):
-            empty_tensor_list = []
-            for j in label[i]:
-                empty_tensor_list.append(torch.full((28, 28), j))
-            tensor_label = torch.stack(empty_tensor_list, 0)
-            batch_list.append(tensor_label)
-        return torch.stack(batch_list, 0)
+    # def construct_label(self,label):
+    #     batch_list = []
+    #     for i in range(len(label)):
+    #         empty_tensor_list = []
+    #         for j in label[i]:
+    #             empty_tensor_list.append(torch.full((28, 28), j))
+    #         tensor_label = torch.stack(empty_tensor_list, 0)
+    #         batch_list.append(tensor_label)
+    #     return torch.stack(batch_list, 0)
 
+    # Optimised version
+    def construct_label(self,label_tensor):
+        return label_tensor[..., None, None].repeat((1, 1, 28, 28))
 
     def forward(self, img, label):
 
