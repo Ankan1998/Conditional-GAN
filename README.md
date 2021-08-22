@@ -21,7 +21,7 @@ GAN variant in which both the Generator and the Discriminator are conditioned on
 * [x] <b>Model</b>
   * [x] Discriminator
   * [x] Generator
-* [ ] <b>Training</b>
+* [x] <b>Training</b>
 * [ ] <b>Inference</b>
 * [ ] <b>Model Saving</b>
 * [ ] <b>Generalization</b>
