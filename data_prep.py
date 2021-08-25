@@ -38,6 +38,13 @@ class CGANDataSet(Dataset):
 
         return img, label
 
+def data_loader(path, batch_size):
+    return DataLoader(
+        CGANDataSet(data_dir, csv_file, transform=transform),
+        batch_size = batch_size,
+        shuffle = True
+    )
+
 
 if __name__ == "__main__":
     data_dir = r'C:\Users\Ankan\Downloads\fashion'
