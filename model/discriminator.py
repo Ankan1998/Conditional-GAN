@@ -28,7 +28,7 @@ class ConvBlock(nn.Module):
 
 class Discriminator(nn.Module):
 
-    def __init__(self, channel_dim, hid_dim, label_dim):
+    def __init__(self, channel_dim, label_dim,hid_dim,):
         super(Discriminator, self).__init__()
         self.conv1 = ConvBlock(channel_dim + label_dim, hid_dim, 3,2)
         self.conv2 = ConvBlock(hid_dim, hid_dim * 2, 3,1)
@@ -63,7 +63,7 @@ class Discriminator(nn.Module):
 
 if __name__=="__main__":
 
-    disc = Discriminator(3,32,10)
+    disc = Discriminator(3,10,32)
     print(disc)
     img = torch.rand(4,3,28,28)
     label = torch.rand(4,10)
