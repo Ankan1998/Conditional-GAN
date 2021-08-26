@@ -65,8 +65,9 @@ if __name__ == "__main__":
     # print(img.shape)
     # plt.imshow(img)
     # plt.show()
-    for data in data_loader(data_dir,csv_file,4):
-        print(type(data))
+    for img, label in data_loader(data_dir,csv_file,4):
+        print(img.shape)
+        print(label.shape)
 
         break
 
