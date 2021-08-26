@@ -38,7 +38,7 @@ class CGANDataSet(Dataset):
 
         return img, label
 
-def data_loader(path, batch_size):
+def data_loader(data_dir, csv_file,batch_size):
     return DataLoader(
         CGANDataSet(data_dir, csv_file, transform=transform),
         batch_size = batch_size,
@@ -57,11 +57,16 @@ if __name__ == "__main__":
         ]
     )
     cgandataset = CGANDataSet(data_dir,csv_file,transform = transform)
-    print(cgandataset.__len__)
-    img, label = cgandataset.__getitem__(0)
-    print(label.shape)
-    print('*'*100)
-    print(cgandataset.dictionary)
-    print(img.shape)
+    # print(cgandataset.__len__)
+    # img, label = cgandataset.__getitem__(0)
+    # print(label.shape)
+    # print('*'*100)
+    # print(cgandataset.dictionary)
+    # print(img.shape)
     # plt.imshow(img)
     # plt.show()
+    for data in data_loader(data_dir,csv_file,4):
+        print(type(data))
+
+        break
+
