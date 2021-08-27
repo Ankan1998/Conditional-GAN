@@ -4,7 +4,7 @@ import torch.nn as nn
 
 class ConvBlock(nn.Module):
 
-    def __init__(self, chn_dim, hid_dim, kernel,stride,final_layer=False):
+    def __init__(self, chn_dim, hid_dim, kernel=4,stride=2,final_layer=False):
         super(ConvBlock, self).__init__()
 
         self.final_layer = final_layer
@@ -28,11 +28,11 @@ class ConvBlock(nn.Module):
 
 class Discriminator(nn.Module):
 
-    def __init__(self, channel_dim, label_dim,hid_dim,):
+    def __init__(self, channel_dim, label_dim,hid_dim=64):
         super(Discriminator, self).__init__()
-        self.conv1 = ConvBlock(channel_dim + label_dim, hid_dim, 3,2)
-        self.conv2 = ConvBlock(hid_dim, hid_dim * 2, 3,1)
-        self.conv3 = ConvBlock(hid_dim * 2, 1, 3,1, final_layer=True)
+        self.conv1 = ConvBlock(channel_dim + label_dim, hid_dim)
+        self.conv2 = ConvBlock(hid_dim, hid_dim * 2)
+        self.conv3 = ConvBlock(hid_dim * 2, 1,final_layer=True)
         self.dropout = nn.Dropout(0.25)
 
     # def construct_label(self,label):
@@ -63,9 +63,9 @@ class Discriminator(nn.Module):
 
 if __name__=="__main__":
 
-    disc = Discriminator(3,10,32)
+    disc = Discriminator(1,10,32)
     print(disc)
-    img = torch.rand(4,3,28,28)
+    img = torch.rand(4,1,28,28)
     label = torch.rand(4,10)
     vec = disc(img,label)
     print(vec.shape)
