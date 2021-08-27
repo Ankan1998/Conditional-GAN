@@ -3,7 +3,7 @@ import torch.nn as nn
 
 class UpConvBlock(nn.Module):
 
-    def __init__(self,chn_dim, hid_dim=64,kernel=3,stride=2,final_layer=False):
+    def __init__(self,chn_dim, hid_dim,kernel=3,stride=2,final_layer=False):
         super(UpConvBlock, self).__init__()
 
         self.final_layer = final_layer
@@ -28,7 +28,7 @@ class UpConvBlock(nn.Module):
 
 class Generator(nn.Module):
 
-    def __init__(self, noise_dim, label_dim, hid_dim):
+    def __init__(self, noise_dim, label_dim, hid_dim=64):
         super(Generator, self).__init__()
         concat_dim = noise_dim + label_dim
         self.upconv1 = UpConvBlock(concat_dim,hid_dim*4)
