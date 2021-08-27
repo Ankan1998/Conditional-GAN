@@ -25,3 +25,4 @@ GAN variant in which both the Generator and the Discriminator are conditioned on
 * [ ] <b>Inference</b>
 * [ ] <b>Model Saving</b>
 * [ ] <b>Generalization</b>
+* [ ] <b>Testing</b>
