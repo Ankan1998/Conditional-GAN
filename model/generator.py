@@ -39,10 +39,10 @@ class Generator(nn.Module):
     def forward(self,noise,label):
         conc_tensor = torch.cat([noise, label], 1)
         conc_tensor = conc_tensor.view(label.shape[0],conc_tensor.shape[1],1,1)
-        gen_inp = self.upconv1(conc_tensor)
-        gen_inp = self.upconv2(gen_inp)
-        gen_inp = self.upconv3(gen_inp)
-        gen_out = self.upconv4(gen_inp)
+        gen_inp_1 = self.upconv1(conc_tensor)
+        gen_inp_2 = self.upconv2(gen_inp_1)
+        gen_inp_3 = self.upconv3(gen_inp_2)
+        gen_out = self.upconv4(gen_inp_3)
 
 
         return gen_out
