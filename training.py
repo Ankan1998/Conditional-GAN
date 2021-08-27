@@ -57,7 +57,7 @@ def train_cgan(
                     "Disc_loss: {:.4f}".format(mean_disc_loss))
                 if viz == True:
                     fake_noise = torch.randn(cur_batch_size, z_dim).to(device)
-                    fake_images = gen(fake_noise)
+                    fake_images = gen(fake_noise,rlabel)
                     visualize_tensor_images(fake_images,size=(fake_images.shape[1],fake_images.shape[2],fake_images.shape[3]))
                     visualize_tensor_images(rimg,size=(rimg.shape[1],rimg.shape[2],rimg.shape[3]))
                 mean_gen_loss = 0
