@@ -30,7 +30,7 @@ class CGANDataSet(Dataset):
 
     def __getitem__(self, idx):
         img_path = os.path.join(self.data_dir, self.dataframe.iloc[idx, 0])
-        img = Image.open(img_path).convert("RGB")
+        img = Image.open(img_path)
         label = torch.tensor(self.dataframe.iloc[idx, 1:].tolist())
 
         if self.transform is not None:
@@ -39,9 +39,9 @@ class CGANDataSet(Dataset):
         return img, label
 
 def data_loader(data_dir, csv_file,batch_size):
-     transform = transforms.Compose(
+    transform = transforms.Compose(
         [
-            
+
             transforms.ToTensor(),
             transforms.Normalize((0.5,), (0.5,)),
         ]
