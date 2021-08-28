@@ -39,6 +39,13 @@ class CGANDataSet(Dataset):
         return img, label
 
 def data_loader(data_dir, csv_file,batch_size):
+     transform = transforms.Compose(
+        [
+            
+            transforms.ToTensor(),
+            transforms.Normalize((0.5,), (0.5,)),
+        ]
+    )
     return DataLoader(
         CGANDataSet(data_dir, csv_file, transform=transform),
         batch_size = batch_size,
